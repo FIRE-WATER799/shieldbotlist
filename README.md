@@ -63,7 +63,7 @@ Replace int with the server count, choose how you like, for example in Javacord:
 
 ```
 public void setupSBH(DiscordApi bot, String token, long clientID) {
-        ShieldBotApi api = new ShieldBotApi.Builder().token("token").botId("botId").build();
+        ShieldBotApi api = new ShieldBotApi.Builder().token("token").botId(botId).build();
         api.setServerCount(event.getApi().getServers().size());
     }
 ```
