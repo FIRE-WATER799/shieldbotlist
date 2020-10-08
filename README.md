@@ -7,9 +7,12 @@ The API is completely open-source and is free to use, modify to your liking as I
 There are three different versions for this API, one for Javacord, one for JDA and one for Discord4j which are the three largest Java APIs for Discord as of writing, if you wish to have yours supported, feel free to change around the code provided on any one of them as they are all fairly the same.
 
 The links for each one are as follows:
+
 [Javacord](https://github.com/ShindouMihou/shieldbotlist-javacord)
+
 [JDA](https://github.com/ShindouMihou/shieldbotlist-jda)
-[Discord4j](https://github.com/ShindouMihou/shieldbotlist-discord4j)
+
+[Discord4J](https://github.com/ShindouMihou/shieldbotlist-discord4j)
 
 #### Usage
 Their usage are also almost the same, only requiring your client (for example in Javacord: DiscordApi) to collect the server count of each one.
