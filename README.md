@@ -1,71 +1,27 @@
-[![](https://jitpack.io/v/ShindouMihou/shieldbotlist.svg)](https://jitpack.io/#ShindouMihou/shieldbotlist) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/2dcc194334cf4777908449549afac20c)](https://www.codacy.com/gh/ShindouMihou/shieldbotlist/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ShindouMihou/shieldbotlist&amp;utm_campaign=Badge_Grade)
-# Shield Bot List API (for Java)
-This is an unofficial API built for Java users, feel free to improve it as much as you like.
-It will be maintained by me for the meantime, but I will be accepting pull requests if ever there is a need for one.
+![Shield Bot List Logo](https://shieldbotlist.tk/assets/img/logo.png)
+# Shield Bot List API for Java.
+This is the Java library for Shield Bot List's API (server count updation), developed by Shindou Mihou, under the programming language Java.
+The API is completely open-source and is free to use, modify to your liking as I cannot maintain the other versions by my own.
 
-### How to install?
+#### Installation
+There are three different versions for this API, one for Javacord, one for JDA and one for Discord4j which are the three largest Java APIs for Discord as of writing, if you wish to have yours supported, feel free to change around the code provided on any one of them as they are all fairly the same.
 
-Follow the instructions provided on:
-https://jitpack.io/#ShindouMihou/shieldbotlist/v1.0.1
+The links for each one are as follows:
+[Javacord](https://github.com/ShindouMihou/shieldbotlist-javacord)
+[JDA](https://github.com/ShindouMihou/shieldbotlist-jda)
+[Discord4j](https://github.com/ShindouMihou/shieldbotlist-discord4j)
 
-#### Maven
+#### Usage
+Their usage are also almost the same, only requiring your client (for example in Javacord: DiscordApi) to collect the server count of each one.
+All three API versions should be functional as per tests, but if there are any errors, feel free to edit them (the only class that really matters is the ShieldBotApiImpl.class).
 
-1.) Add the jitpack.io repository.
+### Documentations
+As of right now, the only Javadocs we have is for Javacord which pretty much works for the others unless you have modified it.
+The link to the javadocs can be found on my website (since I have no place to host it). [Documentations](https://docs.paradoxium.tk).
 
-```
-	<repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
-```
-  
-2.) Add the dependency.
+### Please note
+There may be some confusion as to what the token is, here is a brief explanation:
+The token is used as an authorization code for the API to send a request to the website, or rather a key used to place requests onto the website.
+There are many different tokens which can cause confusion, but the specific token the API is looking for is the one found on the official website [ShieldBotList](https://shieldbotlist.tk)
 
-```
-	<dependency>
-	    <groupId>com.github.ShindouMihou</groupId>
-	    <artifactId>shieldbotlist</artifactId>
-	    <version>v1.0.1</version>
-	</dependency>
-```
-
-#### Gradle
-
-1.) Add it in your root build.gradle at the end of repositories:
-
-```
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-```
-  
-2.) Add the dependency
-
-```
-	dependencies {
-	        implementation 'com.github.ShindouMihou:shieldbotlist:v1.0.1'
-	}
-```
-  
-### How to use:
-
-```
-        ShieldBotApi api = new ShieldBotApi.Builder().token("token").botId("botId").build();
-        api.setServerCount(int);
-```
-
-Replace int with the server count, choose how you like, for example in Javacord:
-
-```
-public void setupSBH(DiscordApi bot, String token, long botId) {
-        ShieldBotApi api = new ShieldBotApi.Builder().token("token").botId(botId).build();
-        api.setServerCount(event.getApi().getServers().size());
-    }
-```
-
-How I personally use this is store it the entire thing on a Values class then retrieve the API from a TimerTask to update every 30 minutes.
+To find this token is easy, all you have to do is register your bot on the website, press the Edit Bot button then head to the very bottom where it says "Authorization Token", pressing that will reveal your token, be sure to keep it on a safe place and hidden.
