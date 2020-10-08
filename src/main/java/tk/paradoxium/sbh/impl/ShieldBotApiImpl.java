@@ -1,20 +1,27 @@
-package tk.paradoxium.sbh;
+package tk.paradoxium.sbh.impl;
 
 import okhttp3.*;
+import org.javacord.api.DiscordApi;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
+import tk.paradoxium.sbh.ShieldBotApi;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ShieldBotApiImpl implements ShieldBotApi{
+public class ShieldBotApiImpl implements ShieldBotApi {
 
     /*
-    The builder for the API, contains all the settings.
-    For example: authorization key and etc.
-    Feel free to change it to your liking, this is only temporary.
+    The one that handles everything.
+    It contains all the basic settings, such as token, botId and DiscordApi.
+    If fallen in the wrong hands, can be used to request information that breaks privacy laws.
+    Please do not touch if unauthorized to, do not redistribute without permission and etc.
+    We are not responsible for any unauthorized distributions of this.
+    - Shindou Mihou.
      */
 
+    // Required variables.
     private final HttpUrl url;
     private final OkHttpClient client;
 
@@ -25,7 +32,7 @@ public class ShieldBotApiImpl implements ShieldBotApi{
      */
     public ShieldBotApiImpl(String token, String botId) {
         this.url = new HttpUrl.Builder()
-                .scheme("http")
+                .scheme("https")
                 .host("shieldbotlist.tk")
                 .addPathSegment("api")
                 .addPathSegment("auth")
@@ -46,7 +53,7 @@ public class ShieldBotApiImpl implements ShieldBotApi{
      */
     public ShieldBotApiImpl(String token, Long botId) {
         this.url = new HttpUrl.Builder()
-                .scheme("http")
+                .scheme("https")
                 .host("shieldbotlist.tk")
                 .addPathSegment("api")
                 .addPathSegment("auth")
@@ -61,11 +68,16 @@ public class ShieldBotApiImpl implements ShieldBotApi{
     }
 
     /**
-     * Sets the server count value, immediately updates to Shield Bot List.
-     * @param count The server count value.
+     * Sets the server count for the bot, this will automatically get the server size from Javacord.
+     * For security reasons, the API will automatically fetch the server count for you (api.getServers().size()).
+     * Please use after a minimum of 30 seconds per request, otherwise it will return an exception.
+     * @param api The Discord API.
      */
-    public void setServerCount(int count){
-        JSONObject object = new JSONObject().put("server_count", count);
+    public void setServerCount(DiscordApi api){
+        if(api == null)
+            throw new IllegalArgumentException("API is null, are you sure you are using the proper library?");
+
+        JSONObject object = new JSONObject().put("server_count", api.getServers().size());
         send(object);
     }
 
@@ -84,22 +96,21 @@ public class ShieldBotApiImpl implements ShieldBotApi{
 
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Logger.getLogger(ShieldBotApiImpl.class.getName()).log(Level.SEVERE, "Exception occurred", e);
+                Logger.getLogger(ShieldBotApiImpl.class.getName()).log(Level.SEVERE, "Exception occurred, this could be caused by server being offline, cancellation, a connectivity problem or timeout. " +
+                        "It is possible that the remote server accepted the request before the failure.", e);
             }
 
-            /*
-             * Fail-safe that actually doesn't work, yeah...
+
+            /**
+             * The last final safe if everything else fails.
+             * @param call The caller variable.
+             * @param response The response variable.
              */
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) {
                 try {
-                    if(!response.isSuccessful() || response.message().isEmpty()){
-                        try {
-                            JSONObject body = new JSONObject(response.body().string());
-                            Logger.getLogger(ShieldBotApiImpl.class.getName()).log(Level.SEVERE, "Exception occurred", body.getString("error"));
-                        } catch (Exception e){
-                            Logger.getLogger(ShieldBotApiImpl.class.getName()).log(Level.SEVERE, "Exception occurred");
-                        }
+                    if(response.isSuccessful()){
+                        Logger.getLogger(ShieldBotApiImpl.class.getName()).log(Level.INFO, "Response has been sent succesfully");
                     }
                 } catch (Exception e){
                     Logger.getLogger(ShieldBotApiImpl.class.getName()).log(Level.SEVERE, "Exception occurred", e);

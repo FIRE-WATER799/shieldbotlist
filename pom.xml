@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>tk.paradoxium</groupId>
-    <artifactId>ShieldBotList-API</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <artifactId>ShieldBotList-API-Javacord</artifactId>
+    <version>v1.0.2</version>
     <packaging>jar</packaging>
     <description>An library used to set your server count on Shield Bot List.</description>
     <properties>
@@ -34,6 +34,11 @@
             <version>4.9.0</version>
         </dependency>
         <dependency>
+            <groupId>org.javacord</groupId>
+            <artifactId>javacord-api</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20200518</version>
@@ -42,6 +47,12 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
             <version>3.3.0</version>
+            <type>maven-plugin</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.2.0</version>
             <type>maven-plugin</type>
         </dependency>
     </dependencies>
@@ -54,6 +65,24 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <links>
+                        <link>https://docs.paradoxium.tk</link>
+                    </links>
                 </configuration>
             </plugin>
         </plugins>
